@@ -11,8 +11,6 @@ sock.connect(("127.0.0.1", 12345))
 data = input("Введите ваше имя\n")
 sock.send(data.encode())
 
-command = ""
-
 def monitor_connections():
     while True:
         read_sockets, write_sockets, error_sockets = select.select([sock], [], [])
@@ -28,7 +26,9 @@ t = threading.Thread(target=monitor_connections)
 t.start()
 
 print("Добро пожаловать в чат!")
-while command != "/stop":
+while True:
     text = input()
+    if text == "/close":
+        break
     sock.send(text.encode())
 sock.close()
